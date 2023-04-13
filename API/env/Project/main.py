@@ -8,13 +8,13 @@ from joblib import load
 import pandas as pd
 from PredictionModel import Model
 
+
 app = FastAPI()
 
 
 @app.get("/")
 def read_root():
    return {"Hello": "World"}
-
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Optional[str] = None):
@@ -27,7 +27,8 @@ async def predict(file: UploadFile = File(...)):
     df = pd.read_csv(StringIO(contents.decode()))
 
     # Make predictions on the CSV data using your ML model
-    predictions = Model.make_predictions(df)
+    model = Model()
+    predictions = model.make_predictions(df)
 
     # Join the input CSV and predictions into a single DataFrame
     results_df = pd.concat([df, predictions], axis=1)
