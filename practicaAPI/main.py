@@ -24,9 +24,9 @@ async def predict(file: UploadFile = File(...)):
     # Read the CSV file into a DataFrame
     contents = await file.read()
     df = pd.read_csv(StringIO(contents.decode()))
-
+    model = Model()
     # Make predictions on the CSV data using your ML model
-    predictions = Model.make_predictions(df)
+    predictions = model.make_predictions(df)
 
     # Join the input CSV and predictions into a single DataFrame
     results_df = pd.concat([df, predictions], axis=1)
