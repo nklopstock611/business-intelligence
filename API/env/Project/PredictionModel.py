@@ -8,6 +8,6 @@ class Model:
 
     def make_predictions(self, data):
         result = self.model.predict(data)
-        df = pd.DataFrame(result, columns=['prediction'])
+        df = pd.DataFrame(result, columns=['sentimiento'])
         return df
         

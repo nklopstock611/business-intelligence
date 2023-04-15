@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <center>
+	    <h1>
+            API de Analisis de Sentimiento
+        </h1>
+        <h2>
+            Reviews de Peliculas
+        </h2>
+    </center>
+    <center>
+        <p>
+            *CONTEXTO*
+        </p>
+    </center>
+</head>
+<body>
+    <h2>Cargar Archivo</h2>
+    <div>
+        <form method="get" action="/predict-file">
+            <input type="file" name="document">
+            <button type="submit">Cargar</button>
+            <br><br>
+                <ul>
+                    {% for value in prediction %}
+                        <li>{{ value }}</li>
+                    {% endfor %}
+                </ul>
+            <br><br>
+            <button type="submit">Predecir</button>
+        </form>
+        <br><br>
+    </div>
+    <h2>Escribir Review</h2>
+    <div>
+        <form method="get" action="/predict-text" id="textarea">
+            <textarea name="input" id="input" rows="4" cols="50" required></textarea>
+            <br><br>
+                <ul>
+                    {% for value in prediction %}
+                        <li>{{ value }}</li>
+                    {% endfor %}
+                </ul>
+            <br><br>
+            <button type="submit" id="submit">Predecir</button>
+          </form>
+    </div>
+</body>
+</html>
