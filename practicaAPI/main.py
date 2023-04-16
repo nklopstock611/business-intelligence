@@ -7,6 +7,11 @@ from DataModel import DataModel
 from joblib import load
 import pandas as pd
 from PredictionModel import Model
+import re
+from nltk.stem import SnowballStemmer
+from nltk.tokenize import casual_tokenize
+import string
+
 app = FastAPI()
 
 
@@ -26,7 +31,7 @@ async def predict(file: UploadFile = File(...)):
     df = pd.read_csv(StringIO(contents.decode()))
     model = Model()
     # Make predictions on the CSV data using your ML model
-    predictions = model.make_predictions(df)
+    predictions = model.make_predictions(df["review_es"])
 
     # Join the input CSV and predictions into a single DataFrame
     results_df = pd.concat([df, predictions], axis=1)
@@ -45,3 +50,14 @@ async def get_data(filename: str):
 
     # Return the file as a response
     return FileResponse(filepath)
+
+def tokenizer(text):
+        snowball = SnowballStemmer('spanish')
+        words = casual_tokenize(text)
+        words = [word.lower() for word in words]
+        words = [re.sub(r'\d+', '', word) for word in words]
+        words = [word.translate(str.maketrans('', '', string.punctuation)) for word in words]
+        words = [word.encode('ascii', 'ignore').decode('utf-8') for word in words]
+        words = [snowball.stem(word) for word in words]
+        return words
+    
