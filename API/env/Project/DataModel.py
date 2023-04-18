@@ -1,11 +1,11 @@
 from pydantic import BaseModel
+from utils import *
 
 class DataModel(BaseModel):
 
 # Estas varibles permiten que la librería pydantic haga el parseo entre el Json recibido y el modelo declarado.
     review_es: str
-    sentimiento: str
 
 #Esta función retorna los nombres de las columnas correspondientes con el modelo esxportado en joblib.
     def columns(self):
-        return ['review_es', 'sentimiento']
+        return ['review_es']
