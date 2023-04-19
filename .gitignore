@@ -1,1 +1,7 @@
-env
+Include/
+Scripts/
+Lib/
+etc/
+share/
+pyvenv.cfg
+!Project/
