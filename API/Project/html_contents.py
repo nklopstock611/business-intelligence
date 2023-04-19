@@ -42,7 +42,7 @@ def html_content_pie_graph():
                     Reviews de Peliculas
                 </h2>
                 <p>
-                    *CONTEXTO*
+                    En esta API puedes ingresar una review de una pelicula y clasificarla como positiva o negativa.
                 </p>
             </center>
         </head>
