@@ -11,7 +11,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import HTMLResponse
 
-from Model import Model
+from PredictionModel import Model
 import html_contents as hc
 
 current = os.path.dirname(os.path.realpath(__file__))
@@ -101,5 +101,3 @@ async def get_data(filename: str):
 
    # Devolver el archivo como respuesta
    return FileResponse(filepath)
-
-# comentario :)
