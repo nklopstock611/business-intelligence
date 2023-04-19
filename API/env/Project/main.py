@@ -1,4 +1,5 @@
 import os
+import sys
 import csv
 import pandas as pd
 import plotly.graph_objects as go
@@ -12,9 +13,16 @@ from fastapi.responses import HTMLResponse
 
 from PredictionModel import Model
 import html_contents as hc
-from utils import *
+
+current = os.path.dirname(os.path.realpath(__file__))
+
+parent = os.path.dirname(os.path.dirname(os.path.dirname(current)))
+
+sys.path.append(parent)
+
 
 app = FastAPI()
+
 
 # ========= #
 # TEMPLATES #
@@ -42,16 +50,15 @@ async def predict_from_textarea(request: Request, input: str):
         writer = csv.writer(file)
         
         # Si el archivo está vacío, escribir la primera fila
-        writer.writerow(['review_es'])
+        writer.writerow(['', 'review_es'])
 
         # Esta línea, además de escribir en el csv, genera un id para cada review que aumenta cada que entra un nuevo registro
-        writer.writerow([input]) # file.tell()//len(input), 
+        writer.writerow([file.tell()//len(input), input]) # file.tell()//len(input), 
 
-    with open(filename, 'r') as file:
-        df = pd.read_csv(file, sep=',')
-        model = Model()
-        prediction = model.make_predictions(df)
-
+    df = pd.read_csv(filename, sep=',')
+    model = Model()
+    prediction = model.make_predictions(df)
+        
     return templates.TemplateResponse("index.html", {"request": request, "prediction": prediction['sentimiento'].replace({1: "negativo", 0: "positivo"})})
 
 @app.post("/predict-file")
