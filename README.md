@@ -6,6 +6,7 @@ pip install -r requirements.txt
 ```
 (esto se puede demorar)
 
+
 Luego, hay que revisar rutas. Si en la primera corrida no funciona, en los archivos "main.py" y "PredictionModel.py" cambien la siguiente línea:
 ```bash
 parent = os.path.dirname(os.path.dirname(os.path.dirname(current)))
