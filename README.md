@@ -13,3 +13,13 @@ por:
 ```bash
 parent = os.path.dirname(os.path.dirname(current))
 ```
+
+Ya con todo instalado, hay que meterse a la carpeta del proyecto:
+```bash
+cd API/Project
+```
+
+Ya, por último, falta correr la API:
+```bash
+uvicorn main:app --reload
+```
