@@ -6,7 +6,7 @@ pip install -r requirements.txt
 ```
 (esto se puede demorar)
 
-
+<br><br>
 Luego, hay que revisar rutas. Si en la primera corrida no funciona, en los archivos "main.py" y "PredictionModel.py" cambien la siguiente línea:
 ```bash
 parent = os.path.dirname(os.path.dirname(os.path.dirname(current)))
@@ -15,12 +15,12 @@ por:
 ```bash
 parent = os.path.dirname(os.path.dirname(current))
 ```
-
+<br><br>
 Ya con todo instalado, hay que meterse a la carpeta del proyecto:
 ```bash
 cd API/Project
 ```
-
+<br><br>
 Ya, por último, falta correr la API:
 ```bash
 uvicorn main:app --reload
