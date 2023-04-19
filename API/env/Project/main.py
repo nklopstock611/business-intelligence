@@ -28,32 +28,31 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 async def root(request: Request):
-   # Devuelve la plantilla index.html
-   return templates.TemplateResponse("index.html", {"request": request})
+    # Devuelve la plantilla index.html
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/predict-text")
-async def predict_from_textarea(input: str):
-   # Nombre del archivo CSV que se va a escribir
-   filename = 'uploaded/review.csv'
-   
-   # Abrir el archivo CSV en modo escritura
-   with open(filename, 'w', newline='') as file:
-      # Crear un objeto writer para escribir en el archivo CSV
-      writer = csv.writer(file)
-      
-      # Si el archivo está vacío, escribir la primera fila
-      writer.writerow(['', 'review_id'])
+async def predict_from_textarea(request: Request, input: str):
+    # Nombre del archivo CSV que se va a escribir
+    filename = 'uploaded/review.csv'
 
-      # Esta línea, además de escribir en el csv, genera un id para cada review qu aumenta cada que entra un nuevo registro
-      writer.writerow([file.tell()//len(input), input])
+    # Abrir el archivo CSV en modo escritura
+    with open(filename, 'w', newline='') as file:
+        # Crear un objeto writer para escribir en el archivo CSV
+        writer = csv.writer(file)
+        
+        # Si el archivo está vacío, escribir la primera fila
+        writer.writerow(['review_es'])
 
-   with open(filename, 'r') as df:
-      model = Model()
-      predictions = model.make_predictions(df)
+        # Esta línea, además de escribir en el csv, genera un id para cada review que aumenta cada que entra un nuevo registro
+        writer.writerow([input]) # file.tell()//len(input), 
 
-      print(predictions)
+    with open(filename, 'r') as file:
+        df = pd.read_csv(file, sep=',')
+        model = Model()
+        prediction = model.make_predictions(df)
 
-   return {"prediction": input}
+    return templates.TemplateResponse("index.html", {"request": request, "prediction": prediction['sentimiento'].replace({1: "negativo", 0: "positivo"})})
 
 @app.post("/predict-file")
 async def predict_from_file(request: Request, file: UploadFile):
@@ -85,13 +84,9 @@ async def predict_from_file(request: Request, file: UploadFile):
         title="Gráfica de Pie: Sentimento de reviews",
         legend_title="Sentimiento",
     )
-
-    plot_div = fig.to_html(full_html=False)
     
     html_content = hc.html_content_pie_graph() % fig.to_json() #.format(plot_div)
 
-    # templates.TemplateResponse("index.html", {"request": request, "predictions": predictions["sentimiento"].replace({1: "negativo", 0: "positivo"})})
-    # Devolver el nombre del archivo de resultados como respuesta
     return HTMLResponse(content=html_content, status_code=200)
 
 @app.get("/data/{filename}")

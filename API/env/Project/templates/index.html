@@ -26,6 +26,10 @@
             .btn-custom:hover, .btn-hover:focus {
                 background-color: #e6e6e6;
             }
+            .btn-custom:focus {
+                outline: none;
+                background-color: #EFEFEF;
+            }
         </style>
         
         <center>
@@ -62,11 +66,9 @@
                 <form method="get" action="/predict-text" id="textarea">
                     <textarea name="input" id="input" rows="4" cols="50" required></textarea>
                     <br><br>
-                    <ul>
                         {% for value in prediction %}
-                        <li>{{ value }}</li>
+                        <p>Sentimiento de Review: {{ value }}</p>
                         {% endfor %}
-                    </ul>
                     <button type="submit" id="submit" class="btn-custom">Clasificar</button>
                 </form>
             </div>

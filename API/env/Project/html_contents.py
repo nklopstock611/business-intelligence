@@ -28,6 +28,10 @@ def html_content_pie_graph():
                 .btn-custom:hover {
                     background-color: ;
                 }
+                .btn-custom:focus {
+                    outline: none;
+                    background-color: #EFEFEF;
+                }
             </style>
             
             <center>
