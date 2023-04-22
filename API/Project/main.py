@@ -15,7 +15,7 @@ from PredictionModel import Model
 import html_contents as hc
 
 current = os.path.dirname(os.path.realpath(__file__))
-parent = os.path.dirname(os.path.dirname(os.path.dirname(current)))
+parent = os.path.dirname(os.path.dirname(current))
 sys.path.append(parent)
 
 
