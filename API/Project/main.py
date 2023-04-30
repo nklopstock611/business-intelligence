@@ -5,11 +5,11 @@ import pandas as pd
 import plotly.graph_objects as go
 
 from io import StringIO
-from django.http import FileResponse
+#from django.http import FileResponse
 from fastapi import FastAPI, UploadFile, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 
 from PredictionModel import Model
 import html_contents as hc
@@ -31,6 +31,8 @@ templates = Jinja2Templates(directory="templates")
 # ========== #
 # CONTROLLER #
 # ========== #
+
+filename = 'uploaded/reviews_result.csv'
 
 @app.get("/")
 async def root(request: Request):
@@ -56,8 +58,8 @@ async def predict_from_textarea(request: Request, input: str):
     df = pd.read_csv(filename, sep=',')
     model = Model()
     prediction = model.make_predictions(df)
-        
-    return templates.TemplateResponse("index.html", {"request": request, "prediction": prediction['sentimiento'].replace({1: "negativo", 0: "positivo"})})
+
+    return templates.TemplateResponse('index.html', {"request": request, "prediction": prediction['sentimiento'].replace({1: "negativo", 0: "positivo"})})
 
 @app.post("/predict-file")
 async def predict_from_file(request: Request, file: UploadFile):
@@ -70,10 +72,10 @@ async def predict_from_file(request: Request, file: UploadFile):
     predictions = model.make_predictions(df)
 
     # # Unir el CSV de entrada y las predicciones en un único DataFrame
-    results_df = pd.concat([df, predictions], axis=1)
+    results_df = pd.concat([df, predictions['sentimiento'].replace({1: "negativo", 0: "positivo"})], axis=1)
 
     # # Guardar el DataFrame de resultados en un archivo CSV en la carpeta "assets"
-    filename = os.path.join("assets", f"{file.filename}_results.csv")
+    #filename = os.path.join("assets", f"{file.filename[:len(file.filename) - 4]}_results.csv")
     results_df.to_csv(filename, index=False)
 
     # Graficar:
@@ -94,10 +96,7 @@ async def predict_from_file(request: Request, file: UploadFile):
 
     return HTMLResponse(content=html_content, status_code=200)
 
-@app.get("/data/{filename}")
-async def get_data(filename: str):
-   # Cargar el archivo CSV desde la carpeta "assets"
-   filepath = os.path.join("assets", f"{filename}_results.csv")
-
+@app.get("/download")
+async def get_data():
    # Devolver el archivo como respuesta
-   return FileResponse(filepath)
+   return FileResponse(filename, filename="reviews_result.csv")
