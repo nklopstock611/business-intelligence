@@ -30,5 +30,5 @@ Una vez la API esté corriendo, van a aparecer dos opciones de predicción. La p
 ```
 La otra opción es escribir una reseña ahí mismo en el cuadro de texto. Por favor, no usar tíldes en el input.
 ## Video
-Link del video explicatorio: https://youtu.be/iUQQwdu6Dtk
+Link del video explicatorio: https://www.youtube.com/watch?v=oIecTWmu3NQ
 
