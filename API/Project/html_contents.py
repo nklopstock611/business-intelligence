@@ -62,6 +62,10 @@ def html_content_pie_graph():
                     var data = %s;
                     Plotly.newPlot('plot', data);
                 </script>
+                <div>
+                    <a href="/download" download><button class="btn-custom">Descargar archivo</button></a>
+                </div>
+                <br><br>
                 <h2>Escribir Review</h2>
                 <div>
                     <form method="get" action="/predict-text" id="textarea">
@@ -69,9 +73,6 @@ def html_content_pie_graph():
                         <br><br>
                         <button type="submit" id="submit" class="btn-custom">Clasificar</button>
                     </form>
-                </div>
-                <div>
-                    <a href="/download" download><button class="btn-custom">Descargar archivo</button></a>
                 </div>
             </center>
         </body>
